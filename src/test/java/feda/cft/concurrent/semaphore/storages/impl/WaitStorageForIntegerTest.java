@@ -7,5 +7,7 @@ public class WaitStorageForIntegerTest {
 
     @Test
     public void waitStorageIntegerTest() {
+        SmallWaitStorageForInteger storage = new SmallWaitStorageForInteger();
+        //producerThread.getState()
     }
 }
