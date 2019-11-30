@@ -8,15 +8,15 @@ import static org.junit.Assert.*;
 
 public class SmallWaitStorageForIntegerTest {
     @Test
-    public void smallWaitStorageIntegerTest() {
+    public void storagePutAndGetTest() {
         try {
-            SmallWaitStorageForInteger storage = new SmallWaitStorageForInteger(TEST_STORAGE_SIZE_IS_ONE);
+            SmallWaitStorageForInteger singleItemStorage = new SmallWaitStorageForInteger(SINGLE_ITEM_STORAGE_SIZE);
 
-            assertTrue(storage.putItem(PUTTED_ITEM_ONE_IN_EMPTY_SINGLE_ITEM_STORAGE));
-            assertFalse(storage.putItem(PUTTED_ITEM_TWO_IN_FULL_SINGLE_ITEM_STORAGE));
+            assertTrue(singleItemStorage.putItem(PUTTED_ITEM_ONE_IN_EMPTY_SINGLE_ITEM_STORAGE));
+            assertFalse(singleItemStorage.putItem(PUTTED_ITEM_TWO_IN_FULL_SINGLE_ITEM_STORAGE));
 
-            assertEquals(storage.getItem(), GOTTEN_ITEM_FROM_SINGLE_ITEM_FULL_STORAGE);
-            assertEquals(storage.getItem(), GOTTEN_NULL_FROM_SINGLE_ITEM_EMPTY_STORAGE);
+            assertEquals(singleItemStorage.getItem(), GOTTEN_ITEM_FROM_SINGLE_ITEM_FULL_STORAGE);
+            assertEquals(singleItemStorage.getItem(), GOTTEN_NULL_FROM_SINGLE_ITEM_EMPTY_STORAGE);
         }
         catch (InterruptedException e)
         {

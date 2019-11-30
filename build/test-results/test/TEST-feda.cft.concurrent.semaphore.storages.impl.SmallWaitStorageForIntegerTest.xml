@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="feda.cft.concurrent.semaphore.storages.impl.SmallWaitStorageForIntegerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-11-29T14:36:32" hostname="fedor-System-Product-Name" time="0.002">
-  <properties/>
-  <testcase name="smallWaitStorageIntegerTest" classname="feda.cft.concurrent.semaphore.storages.impl.SmallWaitStorageForIntegerTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
