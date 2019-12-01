@@ -21,27 +21,29 @@ public class WaitStorageForIntegerTest {
     }
 
     private boolean isItemFromEmptyStorageGotten = false;
+    private boolean isStorageTestThreadInterrupted = false;
     @Test
     public void getItemWaitTest()
     {
+        isStorageTestThreadInterrupted = false;
         try {
 
             WaitStorageForInteger emptySingleItemStorage = GET_EMPTY_SINGLE_ITEM_STORAGE();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        emptySingleItemStorage.getItem();
-                        isItemFromEmptyStorageGotten = true;
-                    }
-                    catch (InterruptedException e)
-                    {
-                        return;
-                    }
+            new Thread(() -> {
+                try {
+                    emptySingleItemStorage.getItem();
+                    isItemFromEmptyStorageGotten = true;
+                }
+                catch (InterruptedException e)
+                {
+                    isStorageTestThreadInterrupted = true;
+                    return;
                 }
             }).start();
             Thread.sleep(WAIT_TESTS_SLEEP_TIME);
+
             assertFalse(isItemFromEmptyStorageGotten);
+            assertFalse(isStorageTestThreadInterrupted);
 
         }
         catch (InterruptedException e)
@@ -54,24 +56,23 @@ public class WaitStorageForIntegerTest {
     @Test
     public void putItemWaitTest()
     {
+        isStorageTestThreadInterrupted = false;
         try {
-
             WaitStorageForInteger fullSingleItemStorage = GET_FULL_SINGLE_ITEM_STORAGE();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        fullSingleItemStorage.putItem(ITEM_FOR_PUT_IN_FULL_SINGLE_ITEM_STORAGE);
-                        isItemPuttedToFullStorage = true;
-                    }
-                    catch (InterruptedException e)
-                    {
-                        return;
-                    }
+            new Thread(() -> {
+                try {
+                    fullSingleItemStorage.putItem(ITEM_FOR_PUT_IN_FULL_SINGLE_ITEM_STORAGE);
+                    isItemPuttedToFullStorage = true;
+                }
+                catch (InterruptedException e)
+                {
+                    isStorageTestThreadInterrupted = true;
+                    return;
                 }
             }).start();
-
             Thread.sleep(WAIT_TESTS_SLEEP_TIME);
+
+            assertFalse(isStorageTestThreadInterrupted);
             assertFalse(isItemPuttedToFullStorage);
 
         }
