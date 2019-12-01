@@ -43,8 +43,8 @@ public class WaitStorageForInteger implements IStorage<Integer> {
 
     public boolean putItem(Integer item) throws InterruptedException
     {
-        getSemaphore.acquire();
         putSemaphore.acquire();
+        getSemaphore.acquire();
 
         while (items.size() == storageSize) {
             getSemaphore.release();
@@ -55,8 +55,8 @@ public class WaitStorageForInteger implements IStorage<Integer> {
         if(!items.add(item))
             throw new IllegalStateException("Throw in ConcurrentIntegerStorage.put(): ArrayDeque.add() return false.");
 
-        putSemaphore.release();
         getSemaphore.release();
+        putSemaphore.release();
         return true;
     }
 }
