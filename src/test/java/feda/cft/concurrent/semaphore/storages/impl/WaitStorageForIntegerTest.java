@@ -9,46 +9,30 @@ import static org.junit.Assert.*;
 public class WaitStorageForIntegerTest {
 
     @Test
-    public void putItemTest() {
+    public void storagePutAndGetItemTest() {
         try {
             WaitStorageForInteger fullSingleItemStorage = WaitStorageForIntegerTestUtils.GET_FULL_SINGLE_ITEM_STORAGE();
-            Thread putInFullStorageThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        fullSingleItemStorage.putItem(ITEM_FOR_PUT_IN_FULL_STORAGE);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        return;
-                    }
-                }
-            });
-            putInFullStorageThread.start();
-            Thread.sleep(TEST_SLEEP_TIME);
-            assertEquals(putInFullStorageThread.getState(), THREAD_STATE_AFTER_PUT_IN_FULL_STORAGE);
-            assertEquals(fullSingleItemStorage.getItem(), ITEM_IN_FULL_SINGLE_ITEM_STORAGE);
-            Thread.sleep(TEST_SLEEP_TIME);
-            assertEquals(putInFullStorageThread.getState(), THREAD_STATE_AFTER_PUT_AND_GET_FROM_FULL_STORAGE);
-
-            putInFullStorageThread.interrupt();
+            assertEquals(ITEM_IN_FULL_SINGLE_ITEM_STORAGE, fullSingleItemStorage.getItem());
         }
         catch (InterruptedException e)
         {
-            Assert.fail("WaitStorageForInteger putItemTest was interrupted.");
+            Assert.fail("WaitStorageForInteger storagePutAndGetItemTest was interrupted.");
         }
     }
 
+    private boolean isItemFromEmptyStorageGotten = false;
     @Test
-    public void getItemTest()
+    public void getItemWaitTest()
     {
         try {
+
             WaitStorageForInteger emptySingleItemStorage = GET_EMPTY_SINGLE_ITEM_STORAGE();
             Thread getFromEmptySingleItemStorage = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         emptySingleItemStorage.getItem();
+                        isItemFromEmptyStorageGotten = true;
                     }
                     catch (InterruptedException e)
                     {
@@ -56,16 +40,43 @@ public class WaitStorageForIntegerTest {
                     }
                 }
             });
-            getFromEmptySingleItemStorage.start();
-            Thread.sleep(TEST_SLEEP_TIME);
-            assertEquals(getFromEmptySingleItemStorage.getState(), THREAD_STATE_AFTER_GET_FROM_EMPTY_STORAGE);
+            Thread.sleep(WAIT_TESTS_SLEEP_TIME);
+            assertFalse(isItemFromEmptyStorageGotten);
 
-            WaitStorageForInteger fullSingleItemStorage = GET_FULL_SINGLE_ITEM_STORAGE();
-            assertEquals(fullSingleItemStorage.getItem(), ITEM_IN_FULL_SINGLE_ITEM_STORAGE);
         }
         catch (InterruptedException e)
         {
-            Assert.fail("WaitStorageForInteger getItemTest was interrupted.");
+            Assert.fail("WaitStorageForInteger getItemWaitTest was interrupted.");
+        }
+    }
+
+    private boolean isItemPuttedToFullStorageGotten = false;
+    @Test
+    public void putItemWaitTest()
+    {
+        try {
+
+            WaitStorageForInteger fullSingleItemStorage = GET_FULL_SINGLE_ITEM_STORAGE();
+            Thread putToFullSingleItemStorage = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        fullSingleItemStorage.getItem();
+                        isItemPuttedToFullStorageGotten = true;
+                    }
+                    catch (InterruptedException e)
+                    {
+                        return;
+                    }
+                }
+            });
+            Thread.sleep(WAIT_TESTS_SLEEP_TIME);
+            assertFalse(isItemPuttedToFullStorageGotten);
+
+        }
+        catch (InterruptedException e)
+        {
+            Assert.fail("WaitStorageForInteger putItemWaitTest was interrupted.");
         }
     }
 }
