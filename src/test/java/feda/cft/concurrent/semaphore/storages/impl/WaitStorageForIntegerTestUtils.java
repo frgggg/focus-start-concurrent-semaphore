@@ -4,6 +4,8 @@ public class WaitStorageForIntegerTestUtils {
     public static final int WAIT_TESTS_SLEEP_TIME = 10000;
 
     public static final Integer ITEM_IN_FULL_SINGLE_ITEM_STORAGE = 1;
+    public static final Integer ITEM_FOR_PUT_IN_FULL_SINGLE_ITEM_STORAGE = 2;
+
     public static WaitStorageForInteger GET_FULL_SINGLE_ITEM_STORAGE() throws InterruptedException
     {
         WaitStorageForInteger storage = new WaitStorageForInteger(1);

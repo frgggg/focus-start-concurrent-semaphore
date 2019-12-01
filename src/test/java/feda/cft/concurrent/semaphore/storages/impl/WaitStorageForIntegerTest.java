@@ -27,7 +27,7 @@ public class WaitStorageForIntegerTest {
         try {
 
             WaitStorageForInteger emptySingleItemStorage = GET_EMPTY_SINGLE_ITEM_STORAGE();
-            Thread getFromEmptySingleItemStorage = new Thread(new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -39,7 +39,7 @@ public class WaitStorageForIntegerTest {
                         return;
                     }
                 }
-            });
+            }).start();
             Thread.sleep(WAIT_TESTS_SLEEP_TIME);
             assertFalse(isItemFromEmptyStorageGotten);
 
@@ -50,28 +50,29 @@ public class WaitStorageForIntegerTest {
         }
     }
 
-    private boolean isItemPuttedToFullStorageGotten = false;
+    private boolean isItemPuttedToFullStorage = false;
     @Test
     public void putItemWaitTest()
     {
         try {
 
             WaitStorageForInteger fullSingleItemStorage = GET_FULL_SINGLE_ITEM_STORAGE();
-            Thread putToFullSingleItemStorage = new Thread(new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        fullSingleItemStorage.getItem();
-                        isItemPuttedToFullStorageGotten = true;
+                        fullSingleItemStorage.putItem(ITEM_FOR_PUT_IN_FULL_SINGLE_ITEM_STORAGE);
+                        isItemPuttedToFullStorage = true;
                     }
                     catch (InterruptedException e)
                     {
                         return;
                     }
                 }
-            });
+            }).start();
+
             Thread.sleep(WAIT_TESTS_SLEEP_TIME);
-            assertFalse(isItemPuttedToFullStorageGotten);
+            assertFalse(isItemPuttedToFullStorage);
 
         }
         catch (InterruptedException e)
